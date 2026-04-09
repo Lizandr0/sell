@@ -15,3 +15,13 @@ def get_meta_mensual():
 
                                 """)
     return cur.fetchall()
+
+def insertar_meta_mensual(cursor, nombre, valor, fecha_inicio, fecha_fin):
+    try:
+        cursor.execute('UPDATE META SET activa=0')
+        cursor.execute("""
+                        INSERT INTO META (nombre, meta, fecha_inicio, fecha_fin) 
+                        VALUES (?, ?, ?, ?)
+                        """, (nombre, valor, fecha_inicio, fecha_fin))
+    except Exception as e:
+        Exception(f"Error al insertar meta mensual: {e}")

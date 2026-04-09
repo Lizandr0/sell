@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from rich.console import Console
 from ui.ui_login import login_menu
 from ui.ui_login import iniciar_sesion_ui
