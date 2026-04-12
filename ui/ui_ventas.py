@@ -1,6 +1,7 @@
 from rich.panel import Panel
 from rich.prompt import Prompt
 from rich.table import Table
+from rich.box import SIMPLE_HEAD
 import os
 from services.services_ventas_carrito import Carrito
 from services.services_inventario import obtener_producto
@@ -53,12 +54,14 @@ def pedir_datos(console, carrito):
 
     if not codigo:
         console.print(Panel('Campo vacio'))
-        return pedir_datos(console, carrito)
+        input('Presiona ENTER para continuar...')
+        return 
     
     info=obtener_producto(codigo)
     if not info:
         console.print(Panel('[bold red]El producto no existe'))
-        return pedir_datos(console, carrito)
+        input('Presiona ENTER para continuar...')
+        return 
     
     console.print(Panel(f'''
     [bold yellow]DESCRIPCION: [bold green]{info[2]}
@@ -93,13 +96,14 @@ def vender(console, carrito, vendedor):
     else:
         if registrar_venta(datos_venta, info):
             console.print(Panel('[bold bright_green]Registrado con exito'))
+            input('Presiona ENTER para continuar...')
             carrito.vaciar()
         else:
             console.print('[bold bright_yellow]Error, al hacer el registro')
             return
 
 def mostrar_carrito_ui(carrito, console):
-    tabla = Table(border_style='magenta')
+    tabla = Table(title='[bold black on #9999ff]Productos en el carrito' ,border_style='magenta', box=SIMPLE_HEAD)
     tabla.add_column("Cód", style="cyan")
     tabla.add_column("Producto", style='magenta')
     tabla.add_column("Cant.", justify="right")
@@ -111,16 +115,12 @@ def mostrar_carrito_ui(carrito, console):
             cod, 
             info["nombre"], 
             str(info["cantidad"]), 
-            str(info['precio']), 
-            str(info['subtotal'])
+            f"Q {str(info['precio'])}", 
+            f"Q {str(info['subtotal'])}"
         )
+    console.print(tabla, justify='center')
     
-    console.print(Panel(tabla, 
-                        title='[bold bright_yellow]Productos en el carrito', 
-                        subtitle='1.Para agregar', border_style='magenta'), 
-                        justify='center')
-    
-    console.print(Panel(f"[bold]TOTAL A PAGAR: Q{carrito.obtener_total():.2f}[/bold]\n", border_style='cyan'))
+    console.print(f"[bold]TOTAL A PAGAR: Q{carrito.obtener_total():.2f}[/bold]", justify='center')
 
 def main_ventas(console, vendedor):
     mi_carrito=Carrito()
@@ -128,13 +128,12 @@ def main_ventas(console, vendedor):
         os.system('clear')
 
         ventas=ventas_hoy()
+       
         console.print(Panel(ventas, title='Ventas del dia', 
                             border_style='#9999FF'), justify='center')
-        console.print(Panel('''[bold #00ff00]1.Agregar Poducto
-2.Confirmar Venta
-0.Vaciar y volver''', 
-                            title='< CARRITO >',
-                            border_style='#9999FF'))
+        
+        console.print(f'\n1.Agregar al carrito| 2.Confirmar venta| 0.Vaciar y volver \n',
+                      justify='center')
         
         if not mi_carrito.items:
             console.print('[black on bright_yellow]El carrito esta vacio')

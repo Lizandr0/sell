@@ -7,12 +7,6 @@ import os
 
 from services.services_inventario import obtener_inventario, registrar_producto, obtener_producto, eliminar_producto
 
-txt=('''[bold #00ff00]
-1.REGISTRAR
-2.EDITAR
-3.ELIMINAR
-4.SALIR
-          ''')
 def ui_eliminar(console):
     console.print(Panel('ELIMINAR PRODUCTO',subtitle='Buscar y eliminar por codigo'))
 
@@ -103,20 +97,22 @@ def tabla_inicio_inventario():
 
     for item in inventario:
         tabla_inventario.add_row(f"{item[1]}", f"{item[2]}", f"Q {str(item[3])}", f"Q {str(item[4])}", f"{str(item[5])}")
-    return Panel(tabla_inventario, title='[#00ff00]Inventario', border_style='#9999ff')
+    return Panel(tabla_inventario, border_style='#9999ff')
 
 
 def inicio_inventario(console):
     while True:
         os.system('clear')
-        a=Panel('INVENTARIO', title='[bold #00ff00]INVENTARIO', border_style='#9999ff')
-        b=Panel(txt, title="[#00ff00]Opciones", border_style='#9999ff')
+        console.print(Panel('INVENTARIO', border_style='#9999ff'), justify='center')
         panel_inventario=tabla_inicio_inventario()
         if not panel_inventario:
             console.print('No hay productos')
 
-        grupo_left=Group(a,b)
-        console.print(Columns([grupo_left,panel_inventario]))
+
+        console.print((panel_inventario), justify='center')
+
+        console.print('\n1.Registrar |2.Actualizar |3.Eliminar |4. Salir',
+                      justify='center')   
 
         s=Prompt.ask('ELIJE')
 
