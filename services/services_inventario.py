@@ -1,4 +1,4 @@
-from repositories.repo_inventario import get_inventario, new_item, delete_item, get_item
+from repositories.repo_inventario import get_inventario, new_item, delete_item, get_item, update_item
 from db.conexion import get_conexion
 con=get_conexion()
 cur=con.cursor()
@@ -28,6 +28,14 @@ def obtener_producto(codigo):
 def eliminar_producto(codigo):
     try:
         delete_item(cur, codigo)
+        con.commit()
+        return True
+    except Exception as e:
+        con.rollback()
+        raise e
+def actualizar_producto(pc, pv, stock, codigo):
+    try:
+        update_item(cur, pc, pv, stock, codigo)
         con.commit()
         return True
     except Exception as e:

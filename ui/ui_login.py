@@ -62,7 +62,7 @@ def login_menu(console):
 
     1.INICIAR SESION
     2.CREAR USUARIO
-    3.SALIR                  
+    0.SALIR                  
                     ''', title='-Sistema de ventas e inventario-', border_style="#c7a3d2"))
         x=Prompt.ask('Elije')
         if not x:
@@ -74,7 +74,7 @@ def login_menu(console):
             iniciar_sesion_ui(console)
         elif x=='2':
             crear_usuario_ui(console)
-        elif x=='3':
+        elif x=='0':
             console.print('Adios rey')
             break
         else:

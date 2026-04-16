@@ -4,9 +4,8 @@ from rich.columns import Columns
 from rich.console import Group
 from rich.prompt import Prompt
 import os
-
+from ui.ui_inventario_actualizar import main_actualizar_datos
 from services.services_inventario import obtener_inventario, registrar_producto, obtener_producto, eliminar_producto
-
 def ui_eliminar(console):
     console.print(Panel('ELIMINAR PRODUCTO',subtitle='Buscar y eliminar por codigo'))
 
@@ -16,7 +15,7 @@ def ui_eliminar(console):
         input('Presiona ENTER para continuar...')
         return
     consulta=obtener_producto(codigo)
-    if not consulta:
+    if not consulta:  
         console.print(f'El codigo {codigo} no existe')
         input('Presiona ENTER para continuar...')
         return
@@ -24,7 +23,9 @@ def ui_eliminar(console):
     console.print(Panel(f'''
     INFORMACION DE {codigo}
     DESCIPCION: {consulta[2]}
-
+    Precio de compra: {str(consulta[3])}
+    Precio de venta: {str(consulta[4])}  
+    Existencias: {str(consulta[5])}
     [bold bright_yellow]Desea eliminar? y/n                         
                   '''))
     o=Prompt.ask('->')
@@ -53,11 +54,16 @@ def ui_eliminar(console):
 
 def ui_nuevo_producto(console):
     console.print(Panel('REGISTRAR PRODUCTO NUEVO'))
+
+    codigo=Prompt.ask('CODIGO')
+    if obtener_producto(codigo):
+        console.print("[bold yellow]El codigo que intentas usar ya existe, escoge otro!!!!!")
+        input('Presiona ENTER para continuar...')
+        return
     
+    descripcion=Prompt.ask('DESCRIPCION')
     while True:
         try:
-            codigo=Prompt.ask('CODIGO')
-            descripcion=Prompt.ask('DESCRIPCION')
             pc=float(Prompt.ask('PRECIO DE COMPRA'))
             pv=float(Prompt.ask('PRECIO DE VENTA'))
             stock=int(Prompt.ask('EXISTENCIAS'))
@@ -65,7 +71,8 @@ def ui_nuevo_producto(console):
         except ValueError:  
             os.system('clear')
             console.print(Panel('Ingresa valores validos', style='red'))
-
+            
+    
     if not codigo or not descripcion or not pc or not pv or not stock:
         os.system('clear')
         console.print('Campos vacios, intenta de nuevo')
@@ -111,19 +118,18 @@ def inicio_inventario(console):
 
         console.print((panel_inventario), justify='center')
 
-        console.print('\n1.Registrar |2.Actualizar |3.Eliminar |4. Salir',
+        console.print('\n1.Registrar |2.Actualizar |3.Eliminar |0. Salir',
                       justify='center')   
 
         s=Prompt.ask('ELIJE')
 
-        if s=='4':
+        if s=='0':
             console.print('ADIOS')
             break
         elif s=='1':
             ui_nuevo_producto(console)
         elif s=='2':
-            console.print(Panel('[bold bright_yellow]NO DISPONIBLE', border_style='magenta'))
-            input('Presiona ENTER para continuar...')
+            main_actualizar_datos(console)
         elif s=='3':
             ui_eliminar(console)
 

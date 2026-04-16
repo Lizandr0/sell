@@ -22,7 +22,12 @@ VALUES(?,?,?,?,?)
 
 def delete_item(cur, codigo):
     cur.execute('DELETE FROM inventario WHERE codigo=?',(codigo,))
-def update_item(cur, datos):
-    cur.exeute('''
-            UPDATE inventario SET()
-               ''')
+
+def update_item(cur, pc, pv, stock, codigo):
+    cur.execute('''
+            UPDATE inventario SET
+               precio_c=?,
+               precio_v=?,
+               stock=?
+            WHERE codigo=?
+               ''',(pc, pv, stock, codigo))  

@@ -37,9 +37,9 @@ def mostrar_stock():
 
 def mostrar_ventas_del_dia():
     ventas=obtener_ventas_de_hoy()[0]
-    table=Table(title=f'[bold black on {BORDE}]Ventas', border_style=BORDE, box=MINIMAL)
+    table=Table(border_style=BORDE, box=MINIMAL)
     table.add_column('[bold bright_white]ID', style='bold #00ff00')
-    table.add_column('[bold bright_white]Total', style='bold black on #9999ff')
+    table.add_column('[bold bright_white]Total', style='bold white on #9999ff')
     table.add_column('[bold bright_white]Hora', style=PRECAUCION)
 
     for venta in ventas:
@@ -52,7 +52,7 @@ def inicio(console, user):
     while True:
         os.system('clear')
 
-        console.print(f'i sell by @Lizandr0 | Version: 1.0 | SO: {sys.platform}', style=f'bold black on {BORDE}', justify='center')  
+        console.print(f'i sell by @Lizandr0 | Version: 1.0 | SO: {sys.platform}', style=f'black on {BORDE}', justify='center')  
         
         meta_nombre, meta_valor, meta_actual = meta_resumen()
 
@@ -64,7 +64,7 @@ def inicio(console, user):
             total_status=f'[bold bright_white]No, faltan: [{ERROR}]Q {meta_valor-meta_actual}'
         
         #tabla meta-------------------------------------------------------------------------------
-        tabla=Table(title=f"[bold black on {BORDE}]{meta_nombre}[/]", style=BORDE, box=MINIMAL)
+        tabla=Table(title=f"[bold {BORDE}]{meta_nombre}", style=BORDE, box=MINIMAL)
         tabla.add_column('[bold bright_white]Meta', style='bold black on #9999ff')
         tabla.add_column("[bold bright_white]Avance", style=f'bold {EXITO}')
         tabla.add_column('[bold bright_white]Estado')
@@ -79,13 +79,17 @@ def inicio(console, user):
         panel_stock=Panel(mostrar_stock(), style=BORDE, title=f'[{PRECAUCION}]Stock bajo!', width=39)
 
         #Grupo ventas del dia------------------------------
+        usuario_activo=Panel(f"[{EXITO}]@{user}",title="[bold bright_white]Usuario Activo", style=BORDE)
+
         total=(f"[bold bright_white]TOTAL: [/bold bright_white][{ERROR}]Q {str(obtener_ventas_de_hoy()[1])}[/]")
+        
         panel_total_ventas_del_dia=Panel(total,
                     border_style=BORDE)
         
-        grupo_left=Panel(Group(mostrar_ventas_del_dia(), panel_total_ventas_del_dia), 
-                         title='[bold bright_white]Resumen del dia', 
-                         style=BORDE)
+        grupo_ventas=Panel(Group(mostrar_ventas_del_dia(), panel_total_ventas_del_dia), 
+                           title=f'[bold bright_white]Ventas del dia',
+                           style=BORDE)
+        grupo_left=Group(usuario_activo, grupo_ventas)
         
         #Grupos izquirda y derecha-----------------------
         grupo_meta=Panel(Group(tabla, panel_meta_status), 
@@ -99,7 +103,7 @@ def inicio(console, user):
                             title='[bold bright_white]Dashboard', 
                             border_style=BORDE), justify='center')
         
-        console.print(f'\n1.VENDER|2.INVENTARIO|3.DATOS|4.SALIR|  -{sys.platform}-',
+        console.print(f'\n1.VENDER|2.INVENTARIO|3.DATOS|0.SALIR|  -{sys.platform}-',
                       justify='center')   
 
         select=Prompt.ask('Elije')
@@ -109,7 +113,7 @@ def inicio(console, user):
             inicio_inventario(console)
         elif select =='3':
             main_datos(console)
-        elif select =='4':
+        elif select =='0':
             print("salir")
             break
         else:

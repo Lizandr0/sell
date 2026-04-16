@@ -14,6 +14,12 @@ def get_sell_today():
     
     return ventas_de_hoy, total_ventas_de_hoy
 
+def get_sell_today_d():
+    cur.execute("""SELECT* FROM ventas_detallado WHERE date(fecha)=date('now', 'localtime')""")
+    ventas_de_hoy_d=cur.fetchall()
+    
+    return ventas_de_hoy_d
+
 def get_stockbajo():
     cur.execute('SELECT* FROM inventario WHERE stock<=5')
     return cur.fetchall()
