@@ -7,7 +7,6 @@ from services.services_ventas_carrito import Carrito
 from services.services_inventario import obtener_producto
 from services.services_ventas import registrar_venta, get_stock, obtener_ventas_de_hoy
 
-
 def ventas_hoy():
     info=obtener_ventas_de_hoy()[0]
     ventas=Table()
@@ -19,7 +18,6 @@ def ventas_hoy():
     for id, total, vendedor, hora in info:
         ventas.add_row(f"{str(id)}", f"{str(total)}", "NONE", f"{vendedor}", f"{hora}")
     return ventas
-
 
 def validar_stock(console, codigo, cantidad, carrito):
     consulta=get_stock(codigo)
@@ -65,10 +63,11 @@ def pedir_datos(console, carrito):
     
     console.print(Panel(f'''
     [bold yellow]DESCRIPCION: [bold green]{info[2]}
-    [bold yellow]PRECIO: [bold green]{info[4]}
+    [bold yellow]PRECIO SUGERIDO***: [bold green]{info[4]}
                         '''))
     while True:
         try:
+            precio=float(Prompt.ask("[bold yellow]Precio autorizado"))
             cantidad=int(Prompt.ask('[bold yellow]Cantidad'))
             break
         except ValueError:
@@ -79,15 +78,12 @@ def pedir_datos(console, carrito):
         return
     
     if validar_stock(console, codigo, cantidad, carrito):
-        carrito.agregar(codigo, info[2], cantidad, info[4])
+        carrito.agregar(codigo, info[2], cantidad, precio)
     else:
         console.print(Panel('Error, revisa el stock'))
-        return
-
-    
+        return  
 
 def vender(console, carrito, vendedor):
-    
     datos_venta=(carrito.obtener_total(), vendedor)
 
     info=carrito.items.items()

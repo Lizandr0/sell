@@ -1,5 +1,5 @@
 BANNER='#9c93e5'
-BORDE='#c7a3d2'
+BORDE='#9999ff'
 TEXTO='#ba8cbe'
 TEXTO2="#7f4ea8"
 ERROR='white on #FF0000'

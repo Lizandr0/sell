@@ -1,10 +1,16 @@
 from rich.panel import Panel
+import sys
 def banner(console):
-    txt='''\n
-    ██╗      ███████╗███████╗██╗     ██╗     
-    ██║      ██╔════╝██╔════╝██║     ██║     
-    ██║█████╗███████╗█████╗  ██║     ██║            
-    ██║╚════╝╚════██║██╔══╝  ██║     ██║     
-    ██║      ███████║███████╗███████╗███████╗
-    ╚═╝      ╚══════╝╚══════╝╚══════╝╚══════╝\n'''
-    console.print(txt, style="black on #c7a3d2", justify='left')
+    console.print(f'i-sell | Version: 1.0 | SO: {sys.platform}', style=f'bold #000000 on #9999ff', justify='center')  
+
+    txt='''                          
+                    ▄▄ ▄▄ 
+                     ██ ██
+ ▀▀                  ██ ██
+ ██      ▄██▀█ ▄█▀█▄ ██ ██
+ ██ ▀▀▀▀ ▀███▄ ██▄█▀ ██ ██
+▄██     █▄▄██▀▄▀█▄▄▄▄██▄██
+             -by Lizandr0-
+                          
+                          '''
+    console.print(txt, style="bold black on #9999ff", justify='center')

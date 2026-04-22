@@ -57,13 +57,14 @@ def crear_usuario_ui(console):
 
 def login_menu(console):
     while True:
+        os.system('clear')
         banner(console)
-        console.print(Panel('''[bold #ba8cbe]
+        console.print(Panel('''[bold #ffffff]
 
     1.INICIAR SESION
     2.CREAR USUARIO
     0.SALIR                  
-                    ''', title='-Sistema de ventas e inventario-', border_style="#c7a3d2"))
+                    ''', title='-Sistema de ventas e inventario-', border_style="#9999ff", style=TEXTO))
         x=Prompt.ask('Elije')
         if not x:
             os.system('clear')

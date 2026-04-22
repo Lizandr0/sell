@@ -2,6 +2,7 @@ from rich.panel import Panel
 from rich.prompt import Prompt
 from rich.table import Table
 from rich.box import SIMPLE_HEAD, MINIMAL
+from rich.align import Align
 from rich.console import Group
 from rich.columns import Columns
 from ui.ui_colores import BANNER, BORDE, TEXTO, TEXTO2, ERROR, EXITO, PRECAUCION
@@ -12,6 +13,7 @@ from ui.ui_ventas import main_ventas
 from ui.ui_datos import main_datos
 import os
 import sys
+import readchar
 
 def meta_resumen():
     meta=obtener_meta_mensual()
@@ -47,7 +49,6 @@ def mostrar_ventas_del_dia():
     
     return table
 
-
 def inicio(console, user):
     while True:
         os.system('clear')
@@ -79,7 +80,7 @@ def inicio(console, user):
         panel_stock=Panel(mostrar_stock(), style=BORDE, title=f'[{PRECAUCION}]Stock bajo!', width=39)
 
         #Grupo ventas del dia------------------------------
-        usuario_activo=Panel(f"[{EXITO}]@{user}",title="[bold bright_white]Usuario Activo", style=BORDE)
+        usuario_activo=Panel(Align.center(f"@[bold #ffffff]{user}"),title="[bold bright_white]Usuario Activo", style=BORDE)
 
         total=(f"[bold bright_white]TOTAL: [/bold bright_white][{ERROR}]Q {str(obtener_ventas_de_hoy()[1])}[/]")
         
@@ -99,14 +100,14 @@ def inicio(console, user):
         grupo_right=Group(grupo_meta, panel_stock)
 
         
-        console.print(Panel(Columns([grupo_left, grupo_right]), 
+        console.print(Panel(Align.center(Columns([grupo_left, grupo_right])), 
                             title='[bold bright_white]Dashboard', 
                             border_style=BORDE), justify='center')
         
         console.print(f'\n1.VENDER|2.INVENTARIO|3.DATOS|0.SALIR|  -{sys.platform}-',
                       justify='center')   
 
-        select=Prompt.ask('Elije')
+        select=readchar.readkey()
         if select =='1':
             main_ventas(console, user)
         elif select =='2':
