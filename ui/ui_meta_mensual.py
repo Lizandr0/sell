@@ -34,7 +34,7 @@ def validar_datos_meta(nombre, valor, fecha_inicio, fecha_fin):
         return False, 'Las fechas deben tener el formato YYYY-MM-DD.'
     return True, ''
 
-def guardar_meta(console, nombre, valor, fecha_inicio, fecha_fin):
+def guardar_meta(console):
     nombre, valor, fecha_inicio, fecha_fin=pedir_datos_meta(console)
     valido, mensaje=validar_datos_meta(nombre, valor, fecha_inicio, fecha_fin)
     if not valido:
@@ -60,7 +60,7 @@ def main_meta(console):
         s=Prompt.ask('Elige una opción', choices=['1', '0'])
 
         if s=='1':
-            guardar_meta(console, *pedir_datos_meta(console))
+            guardar_meta(console)
         elif s=='0':
             break
         else:
