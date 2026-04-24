@@ -5,7 +5,7 @@ from rich.box import SIMPLE_HEAD
 import os
 from services.services_ventas_carrito import Carrito
 from services.services_inventario import obtener_producto
-from services.services_ventas import registrar_venta, get_stock, obtener_ventas_de_hoy
+from services.services_ventas import registrar_venta, obetener_stock, obtener_ventas_de_hoy
 
 def ventas_hoy():
     info=obtener_ventas_de_hoy()[0]
@@ -20,7 +20,7 @@ def ventas_hoy():
     return ventas
 
 def validar_stock(console, codigo, cantidad, carrito):
-    consulta=get_stock(codigo)
+    consulta=obetener_stock(codigo)
     if not consulta:
         return False
     stock_bd=int(consulta[0])

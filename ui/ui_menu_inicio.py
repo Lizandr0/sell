@@ -11,6 +11,7 @@ from services.services_meta_mensual import obtener_meta_mensual
 from ui.ui_inventario import inicio_inventario
 from ui.ui_ventas import main_ventas
 from ui.ui_datos import main_datos
+from ui.ui_ofertas import main_ofertas
 import os
 import sys
 import readchar
@@ -104,15 +105,17 @@ def inicio(console, user):
                             title='[bold bright_white]Dashboard', 
                             border_style=BORDE), justify='center')
         
-        console.print(f'\n1.VENDER|2.INVENTARIO|3.DATOS|0.SALIR|  -{sys.platform}-',
+        console.print(f'\n1.VENDER | 2.OFERTAS | 3.INVENTARIO | 4.DATOS | 0.SALIR |  -{sys.platform}-',
                       justify='center')   
 
         select=readchar.readkey()
         if select =='1':
             main_ventas(console, user)
-        elif select =='2':
-            inicio_inventario(console)
         elif select =='3':
+            inicio_inventario(console)
+        elif select =='2':
+            main_ofertas(console)
+        elif select =='4':
             main_datos(console)
         elif select =='0':
             print("salir")

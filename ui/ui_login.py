@@ -1,5 +1,6 @@
 from rich.prompt import Prompt
 from rich.panel import Panel
+import readchar
 from services.services_login import iniciar_sesion
 from services.services_login import crear_usuario
 from ui.baner import banner
@@ -11,10 +12,10 @@ def get_usuario_activo():
     return usuario
 
 def iniciar_sesion_ui(console):
-    console.print(Panel('INICIAR SESION', border_style=BORDE, style='#08FF08'))
+    console.print(Panel('INICIAR SESION', border_style=BORDE, style='#08FF08'), justify='center')
     global usuario
-    usuario=Prompt.ask('USUARIO')
-    contrasena=Prompt.ask('CONTRASENA', password=True)
+    usuario=Prompt.ask(" "*20 + 'USUARIO')
+    contrasena=Prompt.ask(" "*20 + 'CONTRASENA', password=True)
 
     if not usuario or not contrasena:
         console.print('Campos vacios', style=TEXTO2)
@@ -33,7 +34,7 @@ def iniciar_sesion_ui(console):
         print(e)
 
 def crear_usuario_ui(console):
-    console.print(Panel('CREAR USUARIO', border_style=BORDE, style='#08FF08'))
+    console.print(Panel('CREAR USUARIO', border_style=BORDE, style='#08FF08'), justify='center')
 
     new_user=Prompt.ask(f'[bold {BANNER}]Crea un nombre de usuario')
     new_pass=Prompt.ask(f'[bold {BANNER}]Crea una contrasena', password=True)
@@ -65,7 +66,7 @@ def login_menu(console):
     2.CREAR USUARIO
     0.SALIR                  
                     ''', title='-Sistema de ventas e inventario-', border_style="#9999ff", style=TEXTO))
-        x=Prompt.ask('Elije')
+        x=readchar.readkey()
         if not x:
             os.system('clear')
             console.print('Tienes que ingresar los datos no seas mamon', style=PRECAUCION)

@@ -13,4 +13,4 @@ def banner(console):
              -by Lizandr0-
                           
                           '''
-    console.print(txt, style="bold black on #9999ff", justify='center')
+    console.print(txt, style="black on #9999ff", justify='center')
